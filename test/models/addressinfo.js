@@ -17,13 +17,13 @@ describe('AddressInfo', function() {
       AddressInfo.fromInsight(JSON.stringify(data)).should.deep.equal(addressInfo);
     });
 
-    it('parses correctly a sample response on Insight for address mmvP3mTe53qxHdPqXEvdu8WdC7GfQ2vmx5', function() {
+    it('parses correctly a sample response on Insight for address XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK', function() {
       should.exist(addressInfo);
-      addressInfo.address.toString().should.equal('mmvP3mTe53qxHdPqXEvdu8WdC7GfQ2vmx5');
-      addressInfo.balance.should.equal(552461906422);
-      addressInfo.totalSent.should.equal(663303268631);
-      addressInfo.totalReceived.should.equal(1215765175053);
-      addressInfo.unconfirmedBalance.should.equal(100000000000);
+      addressInfo.address.toString().should.equal('XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK');
+      addressInfo.balance.should.equal(1000);
+      addressInfo.totalSent.should.equal(1000);
+      addressInfo.totalReceived.should.equal(1000);
+      addressInfo.unconfirmedBalance.should.equal(1000);
       addressInfo.transactionIds.length.should.equal(444);
     });
 

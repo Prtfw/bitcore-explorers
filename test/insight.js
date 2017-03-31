@@ -3,7 +3,7 @@
 var sinon = require('sinon');
 var should = require('chai').should();
 var expect = require('chai').expect;
-var bitcore = require('bitcore-lib');
+var bitcore = require('bitcore-lib-dash');
 var explorers = require('../');
 
 var Insight = explorers.Insight;
@@ -20,14 +20,14 @@ describe('Insight', function() {
       should.exist(insight.url);
       should.exist(insight.network);
       if (insight.network === Networks.livenet) {
-        insight.url.should.equal('https://insight.bitpay.com');
+        insight.url.should.equal('http://insight.dash.org');
       } else if (insight.network === Networks.testnet) {
-        insight.url.should.equal('https://test-insight.bitpay.com');
+        insight.url.should.equal('http://test-insight.dash.org');
       }
     });
     it('can be created providing just a network', function() {
       var insight = new Insight(Networks.testnet);
-      insight.url.should.equal('https://test-insight.bitpay.com');
+      insight.url.should.equal('http://test-insight.dash.org');
       insight.network.should.equal(Networks.testnet);
     });
     it('can be created with a custom url', function() {
@@ -49,7 +49,7 @@ describe('Insight', function() {
 
   describe('getting unspent utxos', function() {
     var insight = new Insight();
-    var address = '371mZyMp4t6uVtcEr4DAAbTZyby9Lvia72';
+    var address = 'XhQoYBRjc5R5K3LW9gxoWPrbecWGdU4hnX';
     beforeEach(function() {
       insight.requestPost = sinon.stub();
       insight.requestPost.onFirstCall().callsArgWith(2, null, {
@@ -85,7 +85,7 @@ describe('Insight', function() {
     });
     it('errors if server returns invalid data', function(callback) {
       var invalidUtxo = {
-        address: '2MvQs7cJe49fbukkTLwhSYnV3hSXe6Bu8tb',
+        address: 'XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK', //2MvQs7cJe49fbukkTLwhSYnV3hSXe6Bu8tb
         txid: '7d1eea0c7bed061a6ce1b49d57ef385621766e765bc3ed48bde04d816a4c3ea8',
         vout: 1,
         ts: 1428103500,
@@ -121,12 +121,12 @@ describe('Insight', function() {
         .from({
           "txid": "e42447187db5a29d6db161661e4bc66d61c3e499690fe5ea47f87b79ca573986",
           "vout": 1,
-          "address": "mgBCJAsvzgT2qNNeXsoECg2uPKrUsZ76up",
+          "address": "XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK",
           "scriptPubKey": "76a914073b7eae2823efa349e3b9155b8a735526463a0f88ac",
           "amount": 0.01080000
         })
-        .to("mn9new5vPYWuVN5m3gUBujfKh1uPQvR9mf", 500000)
-        .change("mw5ctwgEaNRbxkM4JhXH3rp5AyGvTWDZCD")
+        .to("XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK", 500000)
+        .change("XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK")
         .sign("cSQUuwwJBAg6tYQhzqqLWW115D1s5KFZDyhCF2ffrnukZxMK6rNZ");
       insight.broadcast(tx, callback);
     });
@@ -166,7 +166,7 @@ describe('Insight', function() {
       }, JSON.stringify(data));
     });
     it('makes the request as expected', function(cb) {
-      insight.address('mmvP3mTe53qxHdPqXEvdu8WdC7GfQ2vmx5', function(err, addressInfo) {
+      insight.address('XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK', function(err, addressInfo) {
         (addressInfo instanceof AddressInfo).should.equal(true);
         cb();
       });
@@ -175,7 +175,7 @@ describe('Insight', function() {
       insight.requestGet.onFirstCall().callsArgWith(1, null, {
         statusCode: 200
       }, 'malformed json');
-      insight.address('mmvP3mTe53qxHdPqXEvdu8WdC7GfQ2vmx5', function(err) {
+      insight.address('XwJKGFYQS1B96rfWnPcVd9NKumsDv3JEiK', function(err) {
         should.exist(err);
         err.toString().should.contain('SyntaxError');
         cb();
