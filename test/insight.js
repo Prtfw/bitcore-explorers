@@ -147,6 +147,68 @@ describe('Insight', function() {
       });
     });
   });
+
+    describe('get information about masternodes', function() {
+        var insight = new Insight(Networks.testnet);
+        var data = [ { vin: '3e739c0219595365c28cb8e14606f18d183500ee13bbedfee8c755a502cbc70a-1',
+            status: 'NEW_START_REQUIRED',
+            protocol: '70206',
+            payee: 'yXXQNnSDhijos1Ucq9NiJMEcFRF6nZGjKq',
+            lastseen: '1486207842',
+            activeseconds: '170674',
+            lastpaidtime: '0',
+            lastpaidblock: '0',
+            IP: '88.99.15.34:19999' },
+            { vin: 'a9dec34daa02d7537d47cefdb2c5131585f97eb8b90c1ccf63675ed3129ca704-1',
+                status: 'ENABLED',
+                protocol: '70206',
+                payee: 'yaffS5bPkfZ211SXbvNyQxFRRP5tL2dZtN',
+                lastseen: '1491488457',
+                activeseconds: '680597',
+                lastpaidtime: '1491482871',
+                lastpaidblock: '179902',
+                IP: '217.182.229.136:19999' },
+            { vin: '88f33da9565bfa2e793402900a894d55ad96039c82ca0ef6919d33141761c4c9-0',
+                status: 'NEW_START_REQUIRED',
+                protocol: '70206',
+                payee: 'yTJSNXHqp1uxSTVQDm1abPUsQJKgvcUqsb',
+                lastseen: '1487206254',
+                activeseconds: '302622',
+                lastpaidtime: '0',
+                lastpaidblock: '0',
+                IP: '5.45.104.74:19999' },
+            { vin: 'c5eb806fdce3b6bbe3a6427848d022bdd650899b74c36eb7f607daa3bc3d0f5d-0',
+                status: 'ENABLED',
+                protocol: '70206',
+                payee: 'yj6xVHMyZGBdLqGUfoGc9gDvU8tHx6iqb4',
+                lastseen: '1491488460',
+                activeseconds: '680599',
+                lastpaidtime: '1491482010',
+                lastpaidblock: '179897',
+                IP: '217.182.229.146:19999' },
+            { vin: '99fdd9d9b7b690821f931550fb0f416ece12e3d764c7cc4b7102839953debdc0-0',
+                status: 'ENABLED',
+                protocol: '70206',
+                payee: 'yYry7hgW9SX9V737xrAkYf4fXCYKrGwEWh',
+                lastseen: '1491488192',
+                activeseconds: '680331',
+                lastpaidtime: '1491481271',
+                lastpaidblock: '179889',
+                IP: '217.182.229.143:19999' }]
+        beforeEach(function() {
+            insight.requestGet = sinon.stub();
+            insight.requestGet.onFirstCall().callsArgWith(1, null, {
+                statusCode: 200
+            }, JSON.stringify(data));
+        });
+        it('makes the mnlist request as expected', function(cb) {
+            insight.mnlist(function(err, mnlistinfo) {
+                mnlistinfo[0].should.eql(data[0]);
+                cb();
+            });
+        });
+    });
+
   describe('requestPost', function() {
     var insight = new Insight();
     insight.request = sinon.stub();
